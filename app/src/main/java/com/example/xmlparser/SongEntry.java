@@ -4,6 +4,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SongEntry {
 
@@ -30,6 +32,26 @@ public class SongEntry {
         this.imageLink = imageLink;
     }
 
+    public static List<SongEntry> readFeed(XmlPullParser parser)
+    throws XmlPullParserException, IOException
+    {
+        List<SongEntry> entries = new ArrayList<SongEntry>();
+        parser.require(XmlPullParser.START_TAG, null, "feed");
+        while (parser.next() != XmlPullParser.END_TAG){
+            if(parser.getEventType() != XmlPullParser.START_TAG){
+                continue;
+            }
+            String name = parser.getName();
+            if(name.equals("entry")){
+                entries.add(readSong(parser));
+            } else {
+                skip(parser);
+            }
+        }
+
+        return entries;
+    }
+
     public static SongEntry readSong(XmlPullParser parser)
     throws XmlPullParserException, IOException
     {
@@ -47,6 +69,7 @@ public class SongEntry {
                 continue;
             }
             String name = parser.getName();
+            System.out.println(" n : " + name);
             if(name.equals("title")){
                 titleSong = lireTag(parser, "title");
             } else if(name.equals("id")){
@@ -55,10 +78,12 @@ public class SongEntry {
                 nameSong = lireTag(parser, "name");
             } else if(name.equals("price")){
                 priceSong = lireTag(parser, "price");
-            } else if(name.equals("date")){
-                dateReleased = lireTag(parser, "date");
-            } else if(name.equals("imagelink")) {
-                imageLink = lireTag(parser, "imagelink");
+            } else if(name.equals("releaseDate")){
+                dateReleased = lireTag(parser, "releaseDate");
+            } else if(
+                    name.equals("image")
+                    ) {
+                imageLink = lireTag(parser, "image");
             }else {
                 skip(parser);
             }
@@ -79,6 +104,7 @@ public class SongEntry {
     public static String lireTag(XmlPullParser parser, String tag_name)
     throws  IOException, XmlPullParserException
     {
+
         parser.require(XmlPullParser.START_TAG, null, tag_name);
         String value = readText(parser);
         parser.require(XmlPullParser.END_TAG, null, tag_name);
@@ -88,7 +114,45 @@ public class SongEntry {
     public static void skip(XmlPullParser parser)
     throws IOException, XmlPullParserException
     {
+        if (parser.getEventType() != XmlPullParser.START_TAG) {
+            throw new IllegalStateException();
+        }
+        int depth = 1;
+        while (depth != 0) {
+            switch (parser.next()) {
+                case XmlPullParser.END_TAG:
+                    depth--;
+                    break;
+                case XmlPullParser.START_TAG:
+                    depth++;
+                    break;
+            }
+        }
 
+    }
+
+    public String getIdSong() {
+        return idSong;
+    }
+
+    public String getTitleSong() {
+        return titleSong;
+    }
+
+    public String getNameSong() {
+        return nameSong;
+    }
+
+    public String getPriceSong() {
+        return priceSong;
+    }
+
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public String getDateReleased() {
+        return dateReleased;
     }
 
     @Override
