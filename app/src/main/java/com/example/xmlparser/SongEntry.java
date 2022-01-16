@@ -157,12 +157,12 @@ public class SongEntry {
 
     @Override
     public String toString() {
-        return
-                "idSong = '" + idSong + '\'' + "\n" +
-                "titleSong = '" + titleSong + '\'' + "\n" +
-                "nameSong = '" + nameSong + '\'' + "\n" +
-                "priceSong = '" + priceSong + '\'' + "\n" +
-                "imageLink = '" + imageLink + '\'' + "\n" +
-                "dateReleased = '" + dateReleased + '\'' + "\n";
+        return  idSong;
+//                "idSong = '" + idSong + '\'' + "\n" +
+//                "titleSong = '" + titleSong + '\'' + "\n" +
+//                "nameSong = '" + nameSong + '\'' + "\n" +
+//                "priceSong = '" + priceSong + '\'' + "\n" +
+//                "imageLink = '" + imageLink + '\'' + "\n" +
+//                "dateReleased = '" + dateReleased + '\'' + "\n";
     }
 }

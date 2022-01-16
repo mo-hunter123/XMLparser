@@ -84,16 +84,6 @@ public class CustomAdapterSongs extends BaseAdapter {
         return convertView;
     }
 
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     static class ViewHolder{
         ImageView songAvatar;
         TextView title;

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         re_musics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SongsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RssOptionsActivity.class);
                 try {
                     startActivity(intent);
                 } catch (Exception e) {

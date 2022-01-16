@@ -5,7 +5,10 @@
       <map>
         <entry key="app/src/main/res/layout/activity_data_for_xmlfile.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_rss_options.xml" value="0.21" />
         <entry key="app/src/main/res/layout/activity_songs.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_xml_remp.xml" value="0.14270833333333333" />
+        <entry key="app/src/main/res/layout/progress_bar.xml" value="0.2" />
         <entry key="app/src/main/res/layout/song_item_layout.xml" value="0.33" />
       </map>
     </option>

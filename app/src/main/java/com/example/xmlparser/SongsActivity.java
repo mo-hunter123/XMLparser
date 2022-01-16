@@ -2,10 +2,19 @@ package com.example.xmlparser;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Xml;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -17,15 +26,14 @@ import java.util.List;
 
 public class SongsActivity extends AppCompatActivity {
 
-    XmlPullParser parser = Xml.newPullParser();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
 
+        Bundle extras = getIntent().getExtras();
         new DownloadXmlTask().
-                execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topsongs/limit=25/xml");
+                execute(extras.getString("LINK"));
     }
     private class DownloadXmlTask extends AsyncTask<String, Void, String> {
         List<SongEntry> entries;
@@ -49,7 +57,6 @@ public class SongsActivity extends AppCompatActivity {
             }
             return null;
         }
-
         @Override
         protected void onPreExecute(){
 
@@ -59,6 +66,16 @@ public class SongsActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             final ListView listview = findViewById(R.id.listview);
             listview.setAdapter(new CustomAdapterSongs(getApplicationContext(), entries));
+
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Object obj = listview.getAdapter().getItem(position);
+                    Uri uri = Uri.parse(obj.toString());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            });
         }
 
         private InputStream downloadUrl(String urlString) throws IOException {
